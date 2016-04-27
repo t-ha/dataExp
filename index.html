@@ -1,13 +1,19 @@
-<!DOCTYPE html>
+><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Data Exploration</title>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href="./css/main.css" type="text/css" rel="stylesheet">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="./js/main.js"></script>
 </head>
-<body>
+<body >
 <div id="layout">
 
     <div id="main">
@@ -19,7 +25,22 @@
         <div class="content">
 
             <h2 class="content-subhead">Shot Charts</h2>
-            <div id="graph" class="graphs"></div>
+
+            <div class="form-group">
+                <label for="player">Select player:</label>
+                <select class="form-control" id="player">
+                    <option value="201939">Stephen Curry</option>
+                    <option value="2544">LeBron James</option>
+                </select>
+            </div>
+
+            <div class="btn-group">
+                <button type ="button" class="btn btn-primary active">All Games</button>
+                <button type ="button" class="btn btn-primary">Home</button>
+                <button type ="button" class="btn btn-primary">Away</button>
+            </div>
+
+            <div id="chart"></div>
             <p>
             </p>
         </div>
