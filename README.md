@@ -1,7 +1,7 @@
 ### Info 474
 ###### Data Exploration
 ###### Timothy Ha
-[Data Exploration link](students.washington.edu/junkwan/dataExp)
+students.washington.edu/junkwan/dataExp
 
 I chose to visually encode the NBA player shot data the way I did because it helps the user understand the data from a contextual standpoint. It uses location on a two-dimensional surface to show where the player shot from. I purposely didn't add any axis because I felt that they don't convey any actual meaning. The data had location (x,y) of the shot taken respective to the basket but basketball isn't a sport where people look at the x and the y to determine where the player shot from, they just look at the court. The (x,y) coordinates are only for plotting purposes. That being said, distance from the basket IS a statistic that people look at so I decided to encode that through a mousehover tooltip. I wanted to show the shots made/missed so I made them different colors. I chose yellow/red tones because they're both easy to see and distinguish from each other. I also purposely extended the height of the svg/g elements beyond that of the court to show some of the "crazy" shots some of these players have taken. Some disadvantages of this method is that it doesn't show the number of shots and it's not entirely clear how effective a shooter might be in different areas. The chart also has overlapping data so datapoints are potentially lost to the viewer.
 
