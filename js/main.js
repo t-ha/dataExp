@@ -40,6 +40,11 @@ $(function() {
 						.outerRadius(62)
 						.startAngle(1/2*Math.PI)
 						.endAngle(3/2*Math.PI);
+			var hoop = d3.svg.arc()
+						.innerRadius(40)
+						.outerRadius(42)
+						.startAngle(1/2*Math.PI)
+						.endAngle(-1/2*Math.PI);
 
 			g.append('rect')		// baseline
 				.attr('x', 0)
@@ -96,12 +101,23 @@ $(function() {
 				.attr('y', height - 190)
 				.attr('width', 160)
 				.attr('height', 2)
-			g.append('rect')		// basket
+			g.append('rect')		// basket backboard
 				.attr('x', 220)
 				.attr('y', height - 40)
 				.attr('width', 60)
 				.attr('height', 2)
-			g.append('circle')		//circle
+			g.append('circle')		// basket rim
+				.attr('r', 9)
+				.attr('cx', width/2)
+				.attr('cy', height - 49)
+				.attr('fill', 'transparent')
+				.attr('stroke', 'black')
+				.attr('stroke-width', 2);
+			g.append('path')		// basket restricted
+				.attr('class', 'arc')
+				.attr('d', hoop)
+				.attr('transform', 'translate(' +  width/2 + ',' + (height - 40) + ')')
+			g.append('circle')		// circle
 				.attr('r', 60)
 				.attr('cx', width/2)
 				.attr('cy', height - 190)
@@ -147,6 +163,14 @@ $(function() {
 				.attr('x', 416)
 				.attr('y', 43)
 				.text('Shot missed');
+			g.append('text')
+				.attr('x', 394)
+				.attr('y', 64)
+				.text('Tooltip:');
+			g.append('text')
+				.attr('x', 394)
+				.attr('y', 79)
+				.text('Feet from basket');
 		}
 
 		// draw the shots
