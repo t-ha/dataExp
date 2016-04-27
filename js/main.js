@@ -1,10 +1,5 @@
-// // var request = require('request');
-// var request;
-// function(require) {
-// 	request = require('request');
-// }
 $(function() {
-	// var request = require('request');
+	
 	var xScale, yScale, currentData;
 
 		// Track the sex (male, female) and drinking type (any, binge) in variables
@@ -16,10 +11,11 @@ $(function() {
 		+'PlayerID='+playerID+'&EndRange=&VsDivision=&PointDiff=&RookieYear=&GameSegment=&Month=0&ClutchTime=&'
 		+'StartRange=&EndPeriod=&SeasonType=Regular+Season&SeasonSegment=&GameID='
 
-		var cData;
-
-		$.get(url, function(data) {
-			var player = JSON.parse(data);
+	var cData;
+	// require(['request'], function() {
+		var req = require('request');
+		req.get(url, function(error, response, body) {
+			var player = JSON.parse(body);
 			cData = player.resultSets[0].rowSet;
 
 			// var x = [];
@@ -29,6 +25,9 @@ $(function() {
 			// 	y.push(d[d.length - 3]);
 			// });
 		});
+	// });
+
+
 
 		// Margin: how much space to put in the SVG for axes/titles
 		var margin = {
