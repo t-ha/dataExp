@@ -1,3 +1,8 @@
+// // var request = require('request');
+// var request;
+// function(require) {
+// 	request = require('request');
+// }
 $(function() {
 	var request = require('request');
 	var xScale, yScale, currentData;
@@ -13,9 +18,9 @@ $(function() {
 
 		var cData;
 
-		request.get(url, function(err, res, body) {
+		request(url, function(err, res, body) {
 			var player = JSON.parse(body);
-			var cData = player.resultSets[0].rowSet;
+			cData = player.resultSets[0].rowSet;
 
 			// var x = [];
 			// var y = [];
