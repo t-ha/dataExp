@@ -1,15 +1,16 @@
 $(function() {
 
 	d3.csv('data/shots.csv', function(error, data) {
-		var xScale, yScale, currentData;
+		var xScale, yScale, cData;
+		cData = data;
 
 
 		// Margin: how much space to put in the SVG for axes/titles
 		var margin = {
-			left:0,
-			bottom:0,
-			top:0,
-			right:0,
+			left:20,
+			bottom:20,
+			top:20,
+			right:20,
 		};
 
 		// Height/width of the drawing area for data symbols
@@ -107,13 +108,10 @@ $(function() {
 
 			// // Use the .enter() method to get your entering elements, and assign initial positions
 			circles.enter().append('circle')
-				.attr('r', 20)
-				.attr('cy', function(d){return (d.LOC_X + 300)})
-				.attr('cy', function(d){return (d.LOC_Y - 3 + 50)})
+				.attr('r', 5)
+				.attr('cx', function(d){return (d.LOC_X + 300)})
+				.attr('cy', function(d){return (d.LOC_Y + 50)})
 				.style('fill', 'blue');
-			// 	.attr('height', 0)
-			// 	.attr('width', xScale.rangeBand())
-			// 	.attr('class', 'bar')
 			// 	.attr('title', function(d) {return d.state_name});
 
 			// // Use the .exit() and .remove() methods to remove elements that are no longer in the data
@@ -145,6 +143,6 @@ $(function() {
 
 		// Filter data to the current settings then draw
 		// filterData()
-		draw(currentData)
+		draw(cData)
 	});
 });
