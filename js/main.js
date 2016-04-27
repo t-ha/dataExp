@@ -1,32 +1,7 @@
 $(function() {
-	
-	var xScale, yScale, currentData;
 
-		// Track the sex (male, female) and drinking type (any, binge) in variables
-		var place = 'all';
-		var playerID = 201939;
-		var url = 'http://stats.nba.com/stats/shotchartdetail?Period=0&VsConference=&LeagueID=00&'
-		+'LastNGames=0&TeamID=0&Position=&Location=&Outcome=&ContextMeasure=FGA&DateFrom=&'
-		+'StartPeriod=&DateTo=&OpponentTeamID=0&ContextFilter=&RangeType=&Season=2014-15&AheadBehind=&'
-		+'PlayerID='+playerID+'&EndRange=&VsDivision=&PointDiff=&RookieYear=&GameSegment=&Month=0&ClutchTime=&'
-		+'StartRange=&EndPeriod=&SeasonType=Regular+Season&SeasonSegment=&GameID='
-
-	var cData;
-	// require(['request'], function() {
-		var req = require('request');
-		req.get(url, function(error, response, body) {
-			var player = JSON.parse(body);
-			cData = player.resultSets[0].rowSet;
-
-			// var x = [];
-			// var y = [];
-			// cData.forEach(function(d) {
-			// 	x.push(d[d.length - 4]);
-			// 	y.push(d[d.length - 3]);
-			// });
-		});
-	// });
-
+	d3.csv('data/shots.csv', function(error, data) {
+		var xScale, yScale, currentData;
 
 
 		// Margin: how much space to put in the SVG for axes/titles
@@ -38,13 +13,13 @@ $(function() {
 		};
 
 		// Height/width of the drawing area for data symbols
-		var height = 600 - margin.bottom - margin.top;
+		var height = 900 - margin.bottom - margin.top;
 		var width = 600 - margin.left - margin.right;
 
 	 	// Select SVG to work with, setting width and height (the vis <div> is defined in the index.html file)
 		var svg = d3.select('#chart')
 			.append('svg')
-			.attr('height', 600)
+			.attr('height', 900)
 			.attr('width', 600);
 
 		// Append a 'g' element in which to place the rects, shifted down and right from the top left corner
@@ -133,8 +108,8 @@ $(function() {
 			// // Use the .enter() method to get your entering elements, and assign initial positions
 			circles.enter().append('circle')
 				.attr('r', 20)
-				.attr('cy', function(d){return (d[d.length - 4] + 300)})
-				.attr('cy', function(d){return (d[d.length - 3] + 40)})
+				.attr('cy', function(d){return (d.LOC_X + 300)})
+				.attr('cy', function(d){return (d.LOC_Y - 3 + 50)})
 				.style('fill', 'blue');
 			// 	.attr('height', 0)
 			// 	.attr('width', xScale.rangeBand())
@@ -171,4 +146,5 @@ $(function() {
 		// Filter data to the current settings then draw
 		// filterData()
 		draw(currentData)
+	});
 });
