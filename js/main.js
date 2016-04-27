@@ -4,7 +4,7 @@
 // 	request = require('request');
 // }
 $(function() {
-	var request = require('request');
+	// var request = require('request');
 	var xScale, yScale, currentData;
 
 		// Track the sex (male, female) and drinking type (any, binge) in variables
@@ -18,8 +18,8 @@ $(function() {
 
 		var cData;
 
-		request(url, function(err, res, body) {
-			var player = JSON.parse(body);
+		$.get(url, function(data) {
+			var player = JSON.parse(data);
 			cData = player.resultSets[0].rowSet;
 
 			// var x = [];
