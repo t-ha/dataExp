@@ -35,10 +35,12 @@ body {
     color: #888;
 }
 
-.graphs {
+svg {
+    display: block;
     margin: auto;
 }
 
-/* taken from
-http://purecss.io/layouts/side-menu/
-*/
+/*
+.panel {
+    width: 500px;
+}*/

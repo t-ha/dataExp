@@ -1,148 +1,197 @@
 $(function() {
 
-	d3.csv('data/shots.csv', function(error, data) {
-		var xScale, yScale, cData;
-		cData = data;
+	d3.csv('data/shots.csv', function(error, allData) {
+		var cData = allData;
+		var pID = 977;
+		var quarter = 1000;
+		var colors = ['yellow', 'red'];
 
-
-		// Margin: how much space to put in the SVG for axes/titles
 		var margin = {
-			left:20,
+			left:25,
 			bottom:20,
-			top:20,
-			right:20,
+			top:25,
+			right:25,
 		};
 
-		// Height/width of the drawing area for data symbols
-		var height = 900 - margin.bottom - margin.top;
-		var width = 600 - margin.left - margin.right;
+		var height = 640 - margin.bottom - margin.top;
+		var width = 550 - margin.left - margin.right;
 
-	 	// Select SVG to work with, setting width and height (the vis <div> is defined in the index.html file)
 		var svg = d3.select('#chart')
 			.append('svg')
-			.attr('height', 900)
-			.attr('width', 600);
+			.attr('height', 660)
+			.attr('width', 550);
 
-		// Append a 'g' element in which to place the rects, shifted down and right from the top left corner
 		var g = svg.append('g')
 				.attr('transform', 'translate(' +  margin.left + ',' + margin.top + ')')
 				.attr('height', height)
 				.attr('width', width);
 
-		// Append an xaxis label to your SVG, specifying the 'transform' attribute to position it (don't call the axis function yet)
-		// var xAxisLabel = svg.append('g')
-		// 										.attr('transform', 'translate(' + margin.left + ',' + (height + margin.top) + ')')
-		// 										.attr('class', 'axis')
-
-		// // Append a yaxis label to your SVG, specifying the 'transform' attribute to position it (don't call the axis function yet)
-		// var yAxisLabel = svg.append('g')
-		// 								.attr('class', 'axis')
-		// 								.attr('transform', 'translate(' + margin.left + ',' + (margin.top) + ')')
-
-		// // Append text to label the y axis (don't specify the text yet)
-		// var xAxisText = svg.append('text')
-		// 									 .attr('transform', 'translate(' + (margin.left + width/2) + ',' + (height + margin.top + 40) + ')')
-		// 									 .attr('class', 'title')
-
-		// // Append text to label the y axis (don't specify the text yet)
-		// var yAxisText = svg.append('text')
-		// 									 .attr('transform', 'translate(' + (margin.left - 40) + ',' + (margin.top + height/2) + ') rotate(-90)')
-		// 									 .attr('class', 'title')
-
-		// Write a function for setting scales.
-		// var setScales = function(data) {
-		// 	// Get the unique values of states for the domain of your x scale
-		// 	var states = data.map(function(d) {return d.state});
-
-		// 	// Define an ordinal xScale using rangeBands
-		// 	xScale  = d3.scale.ordinal().rangeBands([0, width], .2).domain(states);
-
-		// 	// Get min/max values of the percent data
-		// 	var yMin =d3.min(data, function(d){return +d.percent});
-		// 	var yMax =d3.max(data, function(d){return +d.percent});
-
-		// 	// Define the yScale: remember to draw from top to bottom!
-		// 	yScale = d3.scale.linear().range([height, 0]).domain([0, yMax]);
-		// }
-
-		// Function for setting axes
-		// var setAxes = function() {
-		// 	// Define x axis using d3.svg.axis(), assigning the scale as the xScale
-		// 	// var xAxis = d3.svg.axis()
-		// 	// 			.scale(xScale)
-		// 	// 			.orient('bottom')
-
-		// 	// // Define y axis using d3.svg.axis(), assigning the scale as the yScale
-		// 	// var yAxis = d3.svg.axis()
-		// 	// 			.scale(yScale)
-		// 	// 			.orient('left')
-		// 	// 			.tickFormat(d3.format('.2s'));
-
-		// 	// // Call xAxis
-		// 	// xAxisLabel.transition().duration(1500).call(xAxis);
-
-		// 	// // Call yAxis
-		// 	// yAxisLabel.transition().duration(1500).call(yAxis);
-
-		// 	// Update labels
-		// 	xAxisText.text('Feet from basket');
-		// 	yAxisText.text('Feet from bakset');
-		// }
-
-		// Write a function to filter down the data to the current sex and type
-		// var filterData = function() {
-		// 	currentData = allData.filter(function(d) {
-		// 		return d.type == type && d.sex == sex
-		// 	}		
-		// }
-
-		// Store the data-join in a function: make sure to set the scales and update the axes in your function.
-		var draw = function(data) {
-			// Set scales
-			// setScales(data);
-
-			// Set axes
-			// setAxes();
-
-			var circles = g.selectAll('circle').data(data);
-
-			// // Use the .enter() method to get your entering elements, and assign initial positions
-			circles.enter().append('circle')
-				.attr('r', 5)
-				.attr('cx', function(d){return (d.LOC_X + 300)})
-				.attr('cy', function(d){return (d.LOC_Y + 50)})
-				.style('fill', 'blue');
-			// 	.attr('title', function(d) {return d.state_name});
-
-			// // Use the .exit() and .remove() methods to remove elements that are no longer in the data
-			circles.exit().remove();
-
-			// // Transition properties of the update selection
-			// bars.transition()
-			// 	.duration(1500)
-			// 	.delay(function(d,i){return i*50})
-			// 	.attr('x', function(d){return xScale(d.state)})
-			// 	.attr('y', function(d){return yScale(d.percent)})
-			// 	.attr('height', function(d) {return height - yScale(d.percent)})
-			// 	.attr('width', xScale.rangeBand())
-			// 	.attr('title', function(d) {return d.state_name});
+		// filter data based on input
+		var filterData = function() {
+			cData = allData.filter(function(d) {
+				return +d.PLAYER_ID == pID && (+d.PERIOD == quarter || (+d.PERIOD * 100) < quarter)
+			});
 		}
 
-		// Assign a change event to input elements to set the sex/type values, then filter and update the data
-		// $("input").on('change', function() {
-		// 	// Get value, determine if it is the sex or type controller
-		// 	var val = $(this).val();
-		// 	var isSex = $(this).hasClass('sex');
-		// 	if(isSex) sex = val;
-		// 	else type = val;
+		// draw the basketball court (half)
+		var drawCourt = function() {
+			var arc = d3.svg.arc()
+						.innerRadius(60)
+						.outerRadius(62)
+						.startAngle(1/2*Math.PI)
+						.endAngle(3/2*Math.PI);
 
-		// 	// Filter data, update chart
-		// 	filterData();
-		// 	draw(currentData);
-		// });
+			g.append('rect')		// baseline
+				.attr('x', 0)
+				.attr('y', height)
+				.attr('width', width)
+				.attr('height', 2);
+			g.append('rect')		// left long 14ft
+				.attr('x', 30)
+				.attr('y', height - 140)
+				.attr('width', 2)
+				.attr('height', 140);
+			g.append('rect')		// left sideline
+				.attr('x', 0)
+				.attr('y', height - 430)
+				.attr('width', 2)
+				.attr('height', 430);	
+			g.append('rect')		// right long 14ft
+				.attr('x', width - 32)
+				.attr('y', height - 140)
+				.attr('width', 2)
+				.attr('height', 140)
+			g.append('rect')		// right sideline
+				.attr('x', width - 2)
+				.attr('y', height - 430)
+				.attr('width', 2)
+				.attr('height', 430)
+			g.append('rect')		// half court
+				.attr('x', 0)
+				.attr('y', height - 430)
+				.attr('width', width)
+				.attr('height', 2)
+			g.append('rect')		// paint left out
+				.attr('x', 170)
+				.attr('y', height - 190)
+				.attr('width', 2)
+				.attr('height', 190)
+			g.append('rect')		// paint left in
+				.attr('x', 189)
+				.attr('y', height - 190)
+				.attr('width', 2)
+				.attr('height', 190)
+			g.append('rect')		// paint right out
+				.attr('x', 328)
+				.attr('y', height - 190)
+				.attr('width', 2)
+				.attr('height', 190)
+			g.append('rect')		// paint right in
+				.attr('x', 309)
+				.attr('y', height - 190)
+				.attr('width', 2)
+				.attr('height', 190)
+			g.append('rect')		// paint top
+				.attr('x', 170)
+				.attr('y', height - 190)
+				.attr('width', 160)
+				.attr('height', 2)
+			g.append('rect')		// basket
+				.attr('x', 220)
+				.attr('y', height - 40)
+				.attr('width', 60)
+				.attr('height', 2)
+			g.append('circle')		//circle
+				.attr('r', 60)
+				.attr('cx', width/2)
+				.attr('cy', height - 190)
+				.attr('fill', 'transparent')
+				.attr('stroke', 'black')
+				.attr('stroke-width', 2);
+			g.append('path')		// 3pt arc
+				.attr('class', 'path')
+				.attr('d', 'M 30 458 Q 250 180 470 458')
+				.attr('fill', 'transparent')
+				.attr('stroke', 'black')
+				.attr('stroke-width', 2);
+			g.append('path')		// half court circle
+				.attr('class', 'arc')
+				.attr('d', arc)
+				.attr('transform', 'translate(' +  width/2 + ',' + (height - 430) + ')')
+		}
 
-		// Filter data to the current settings then draw
-		// filterData()
-		draw(cData)
+		// draw legeng (shot made/missed)
+		var drawLegend = function() {
+			g.append('rect')
+				.attr('x', 390)
+				.attr('y', 10)
+				.attr('width', 110)
+				.attr('height', 40)
+				.attr('fill', 'transparent')
+				.attr('stroke', 'black');
+			g.append('circle')
+				.attr('r', 6)
+				.attr('cx', 402)
+				.attr('cy', 20)
+				.attr('fill', d3.rgb(243,38,19));
+			g.append('circle')
+				.attr('r', 6)
+				.attr('cx', 402)
+				.attr('cy', 38)
+				.attr('fill', d3.rgb(247,202,24));
+			g.append('text')
+				.attr('x', 416)
+				.attr('y', 25)
+				.text('Shot made');
+			g.append('text')
+				.attr('x', 416)
+				.attr('y', 43)
+				.text('Shot missed');
+		}
+
+		// draw the shots
+		var draw = function(data) {
+			var circles = g.selectAll('circle').data(data);
+			circles.enter().append('circle')
+				.attr('r', 6)
+				.attr('cx', function(d){return (+d.LOC_X + width/2)})
+				.attr('cy', function(d){return (height - +d.LOC_Y - 40)})
+				.attr('class', 'shots')
+				.style('opacity', 0.6)
+				.attr('fill', function(d){return (+d.SHOT_MADE_FLAG == 1 ? d3.rgb(243,38,19) : d3.rgb(247,202,24));})
+				.attr('title', function(d) {return d.SHOT_DISTANCE});
+
+			circles.exit().remove();
+		}
+
+
+		// filter data, draw the shots, re-apply tooltip
+		var drawFull = function() {
+			filterData();
+			draw(cData);
+
+			$('circle').tooltip({
+				'container': 'body',
+				'placement': 'top'
+			});
+		}
+
+		// filter/redraw on input change
+		$("input").on('change', function() {
+			var val = +$(this).val(); // new value
+			var playerID = $(this).hasClass('player'); // did the user change player?
+			if(playerID) {	// if so set the value to new pID
+				pID = val;
+			} else {		// set value to quarter
+				quarter = val;
+			}
+
+			g.selectAll('.shots').remove(); // remove all the shots before redrawing
+			drawFull();
+		});
+
+		drawLegend();
+		drawCourt();
+		drawFull();
 	});
 });

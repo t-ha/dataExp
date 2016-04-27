@@ -5,7 +5,7 @@
     <title>Data Exploration</title>
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <!-- <link href="./css/main.css" type="text/css" rel="stylesheet"> -->
+    <link href="./css/main.css" type="text/css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -24,25 +24,47 @@
 
         <div class="content">
 
-            <h2 class="content-subhead">Shot Charts</h2>
+            <h2 class="content-subhead">NBA Shot Charts (2014-15 Season)</h2>
 
-            <div class="form-group">
-                <label for="player">Select player:</label>
-                <select class="form-control" id="player">
-                    <option value="201939">Stephen Curry</option>
-                    <option value="2544">LeBron James</option>
-                </select>
-            </div>
-
-            <div class="btn-group">
-                <button type ="button" class="btn btn-primary active">All Games</button>
-                <button type ="button" class="btn btn-primary">Home</button>
-                <button type ="button" class="btn btn-primary">Away</button>
-            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                <h4>Player</h4>
+                    <div class="btn-group btn-group-justified" data-toggle="buttons">
+                        <label class="btn btn-default active">
+                            <input type="radio" class="player" name="players" value="977">Kobe Bryant
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" class="player" name ="players" value="201939">Stephen Curry
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" class="player" name="players" value="2544">LeBron James
+                        </label>
+                    </div>
+                </div>
+                <div class="panel-body">
+                <h4>Quarter</h4>
+                    <div class="btn-group btn-group-justified" data-toggle="buttons">
+                        <label class="btn btn-default active">
+                            <input type="radio" class="qtrs" name="qtr" value="1000">All
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" class="qtrs" name="qtr" value="1">First
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" class="qtrs" name ="qtr" value="2">Second
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" class="qtrs" name="qtr" value="3">Third
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" class="qtrs" name="qtr" value="4">Fourth
+                        </label>
+                    </div>
+                </div>
+            
 
             <div id="chart"></div>
-            <p>
-            </p>
+            </div>
         </div>
     </div>
 </div>
